@@ -1,0 +1,12 @@
+{
+    "require": {
+        "guzzlehttp/guzzle": "^6.5",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "files": [ "src/Constants/VerificationTypes.php" ],
+        "psr-4": {
+            "SkillDisplay\\APIToolKit\\": "src/"
+        }
+    }
+}
