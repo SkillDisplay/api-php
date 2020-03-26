@@ -33,7 +33,7 @@ Included examples:
 - Render verification links without a design if you want to use a custom look (src/Example/NoSettingsRequired/RenderCustomVerificationLinks.php)
 
 ### Automatic Self-Verifications
- In order to implement Self-Verification for Skills you need:
+ In order to implement automatic Self-Verification for Skills you need:
  - An API Key
  
  Obtaining an API Key is easy. Just write us an E-Mail to [partners@skilldisplay.eu], and let us know your use-case. We'll then send you an API Key.
