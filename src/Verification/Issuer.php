@@ -1,13 +1,14 @@
 <?php
 
-namespace SkillDisplay\APIToolKit\Verification;
+namespace SkillDisplay\PHPToolKit\Verification;
 
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
-use SkillDisplay\APIToolKit\Configuration\Settings;
+use SkillDisplay\PHPToolKit\Configuration\Settings;
 
 class Issuer {
     private Settings $settings;
+    private string $apislug = '/api/v1/verification/create';
 
     /***
      * @param int $skillID ID of the Skill or SkillSet
@@ -57,7 +58,7 @@ class Issuer {
         $client = new \GuzzleHttp\Client();
         $request = new Request(
             'POST',
-            $this->settings->getVerificationURL(),
+            $this->settings->getAPIUrl() . $this->apislug,
             array(
                 'Content-Type' => 'application/json',
                 'x-api-key' => $this->settings->getApiKey()

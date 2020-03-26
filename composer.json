@@ -6,7 +6,7 @@
     "autoload": {
         "files": [ "src/Constants/VerificationTypes.php" ],
         "psr-4": {
-            "SkillDisplay\\APIToolKit\\": "src/"
+            "SkillDisplay\\PHPToolKit\\": "src/"
         }
     }
 }
