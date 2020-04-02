@@ -1,4 +1,14 @@
 {
+    "name": "skilldisplay/phptoolkit",
+    "description": "The SkillDisplay PHPToolKit includes predefined classes and methods for using the API and rendering verification related elements (like buttons)",
+    "type": "library",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Florian Weiss",
+            "email": "github@weissheiten.at"
+        }
+    ],
     "require": {
         "guzzlehttp/guzzle": "^6.5",
         "ext-json": "*"
