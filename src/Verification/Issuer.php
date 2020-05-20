@@ -38,7 +38,7 @@ class Issuer {
      *
      * Outputs a response of a request directly on the page
      */
-    private function outputResponse(ResponseInterface $response){
+    public function outputResponse(ResponseInterface $response){
         // Get all of the response headers.
         foreach ($response->getHeaders() as $name => $values) {
             echo $name . ': ' . implode(', ', $values) . "\r\n";
@@ -51,8 +51,9 @@ class Issuer {
      * @param int $skillID SkillID of the skill for which the verification should be issued (can be read from URL after a search - eg.: https://my.dev.skilldisplay.eu/skill/4/0 has ID 4)
      * @param string $useremail E-Mail of the SkillDisplay user for whom you want to verify the skill
      * @param string $vtype Verification type, one of the constants in /src/Constants/VerificationTypes.php
+     * @return ResponseInterface
      */
-    public function issueVerification(int $skillID, string $useremail, string $vtype){
+    public function issueVerification(int $skillID, string $useremail, string $vtype) : ResponseInterface {
         $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype);
 
         $client = new \GuzzleHttp\Client();
@@ -66,8 +67,8 @@ class Issuer {
             json_encode($requestData)
         );
 
-        $response = $client->send($request);
-        $this->outputResponse($response);
+        return $client->send($request);
+
     }
 
     /**

@@ -11,4 +11,4 @@ use SkillDisplay\PHPToolKit\Verification\Issuer;
 // In order to grant an Educational Verification you just need to exchange the constant to VERIFICATION_EDUCATIONAL
 // (your Verifier Account needs the according permissions)
 $myVerificationTool = new Issuer($mySettings);
-$myVerificationTool->issueVerification(193,'--skilldisplay-user-email--', VERIFICATION_BUSINESS);
+$myVerificationTool->outputResponse($myVerificationTool->issueVerification(193,'--skilldisplay-user-email--', VERIFICATION_BUSINESS));
