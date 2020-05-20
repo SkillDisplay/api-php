@@ -25,13 +25,11 @@ class Issuer {
             $requestData['SkillId'] = $ID;
         }
 
-        $requestData = [
-            "Level" => $vtype,
-            "VerifierId" => $this->settings->getVerifierID(),
-            "Username" => $useremail,
-            "AutoConfirm" => true,
-            "Signature" => ''
-        ];
+        $requestData['Level'] = $vtype;
+        $requestData['VerifierId'] = $this->settings->getVerifierID();
+        $requestData['Username'] = $useremail;
+        $requestData['AutoConfirm'] = true;
+        $requestData['Signature'] = '';
 
         $json = json_encode($requestData);
         $signature = ($vtype==="self") ? 'sdself' : $this->settings->getUserSecret();
