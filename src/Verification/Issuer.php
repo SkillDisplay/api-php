@@ -16,9 +16,16 @@ class Issuer {
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return array
      */
-    private function generateSignedRequestData(int $skillID, string $useremail, string $vtype) : array {
+    private function generateSignedRequestData(int $ID, string $useremail, string $vtype, bool $isSkillSet = false) : array {
+
+        if($isSkillSet){
+            $requestData['SkillSetId'] = $ID;
+        }
+        else{
+            $requestData['SkillId'] = $ID;
+        }
+
         $requestData = [
-            "SkillId" => $skillID,
             "Level" => $vtype,
             "VerifierId" => $this->settings->getVerifierID(),
             "Username" => $useremail,
