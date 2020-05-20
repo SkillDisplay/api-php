@@ -58,10 +58,11 @@ class Issuer {
      * @param int $skillID SkillID of the skill for which the verification should be issued (can be read from URL after a search - eg.: https://my.dev.skilldisplay.eu/skill/4/0 has ID 4)
      * @param string $useremail E-Mail of the SkillDisplay user for whom you want to verify the skill
      * @param string $vtype Verification type, one of the constants in /src/Constants/VerificationTypes.php
+     * @param bool $isSkillSet is the passed ID that of a SkillSet (else it is a single skill, also default)
      * @return ResponseInterface
      */
-    public function issueVerification(int $skillID, string $useremail, string $vtype) : ResponseInterface {
-        $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype);
+    public function issueVerification(int $skillID, string $useremail, string $vtype, bool $isSkillSet = false) : ResponseInterface {
+        $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype, $isSkillSet);
 
         $client = new \GuzzleHttp\Client();
         $request = new Request(
