@@ -18,5 +18,14 @@
         "psr-4": {
             "SkillDisplay\\PHPToolKit\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SkillDisplay\\PHPToolKit\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+        "phpspec/prophecy-phpunit": "^2.0"
     }
 }
