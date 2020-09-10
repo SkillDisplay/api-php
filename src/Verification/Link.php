@@ -12,7 +12,7 @@ use SkillDisplay\PHPToolKit\Configuration\Settings;
  */
 class Link
 {
-    private int $skillID;
+    private ?int $skillID;
     private Settings $settings;
 
     /* SVG Definitions */
@@ -48,7 +48,7 @@ class Link
         <circle cx="25" cy="25" r="12" stroke="white" stroke-width="2"/>
         </svg>';
 
-    public function __construct(Settings $settings, int $skillID)
+    public function __construct(Settings $settings, ?int $skillID = null)
     {
         $this->settings = $settings;
         $this->skillID = $skillID;
@@ -58,9 +58,15 @@ class Link
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string URL to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationLink(string $vtype): string
+    public function getVerificationLink(string $vtype, ?int $skillID = null) : string
     {
-        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/skill/' . $this->skillID . '/0/';
+        $skillID = $skillID ?? $this->skillID;
+
+        if ($skillID === null) {
+            throw new \InvalidArgumentException('No skill ID provided.', 1599723825);
+        }
+
+        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/skill/' . $skillID . '/0/';
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
                 $link .= '2';
@@ -83,7 +89,7 @@ class Link
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string SVG Button to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationButton(string $vtype): string
+    public function getVerificationButton(string $vtype, ?int $skillID = null) : string
     {
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
@@ -100,7 +106,7 @@ class Link
                 break;
         }
         return <<<BUTTON
-            <a href="{$this->getVerificationLink($vtype)}" target="_blank">{$buttonsvg}</a>
+            <a href="{$this->getVerificationLink($vtype, $skillID)}" target="_blank">{$buttonsvg}</a>
 BUTTON;
     }
 }

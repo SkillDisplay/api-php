@@ -31,6 +31,16 @@ class LinkTest extends TestCase
     /**
      * @test
      */
+    public function instanceCanBeCreatedWithoutSkillId()
+    {
+        $settings = $this->prophesize(Settings::class);
+        $subject = new Link($settings->reveal());
+        static::assertInstanceOf(Link::class, $subject);
+    }
+
+    /**
+     * @test
+     */
     public function canReturnVerificationLinkForEducational()
     {
         $settings = $this->prophesize(Settings::class);
