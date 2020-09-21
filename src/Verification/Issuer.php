@@ -9,8 +9,15 @@ use SkillDisplay\PHPToolKit\Configuration\Settings;
 
 class Issuer
 {
-    private Settings $settings;
-    private string $apislug = '/api/v1/verification/create';
+    /**
+     * @var Settings
+     */
+    private $settings;
+
+    /**
+     * @var string
+     */
+    private $apislug = '/api/v1/verification/create';
 
     /**
      * @param int $ID ID of the Skill or SkillSet
@@ -72,8 +79,7 @@ class Issuer
         string $useremail,
         string $vtype,
         bool $isSkillSet = false
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype, $isSkillSet);
 
         $client = new \GuzzleHttp\Client();
