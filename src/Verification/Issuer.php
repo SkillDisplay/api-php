@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SkillDisplay\PHPToolKit\Verification;
@@ -31,8 +32,7 @@ class Issuer
         string $useremail,
         string $vtype,
         bool $isSkillSet = false
-    ): array
-    {
+    ): array {
         if ($isSkillSet) {
             $requestData['SkillSetId'] = $ID;
         } else {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SkillDisplay\PHPToolKit\Verification;
@@ -78,7 +79,7 @@ class Link
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string URL to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationLink(string $vtype, ?int $skillID = null) : string
+    public function getVerificationLink(string $vtype, ?int $skillID = null): string
     {
         $skillID = $skillID ?? $this->skillID;
 
@@ -109,7 +110,7 @@ class Link
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string SVG Button to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationButton(string $vtype, ?int $skillID = null) : string
+    public function getVerificationButton(string $vtype, ?int $skillID = null): string
     {
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:

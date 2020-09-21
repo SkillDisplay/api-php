@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SkillDisplay\PHPToolKit\Configuration;
@@ -68,7 +69,7 @@ class Settings
         $this->apiKey = $apiKey;
         $this->verifierID = $verifierID;
         $this->user_secret = $user_secret;
-        $this->APIUrl = is_null($domain) ? 'https://www.skilldisplay.eu' : 'https://' . $domain;
-        $this->mySkillDisplayUrl = is_null($domain) ? 'https://my.skilldisplay.eu' : 'https://my.' . $domain;
+        $this->APIUrl = (is_null($domain)) ? 'https://www.skilldisplay.eu' : 'https://' . $domain;
+        $this->mySkillDisplayUrl = (is_null($domain)) ? 'https://my.skilldisplay.eu' : 'https://my.' . $domain;
     }
 }
