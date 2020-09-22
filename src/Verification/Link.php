@@ -16,12 +16,16 @@ class Link
     /**
      * @var null|int
      */
-    private $skillID;
+    private $id;
 
     /**
      * @var Settings
      */
     private $settings;
+
+    public const SKILL = 'skill';
+
+    public const SKILL_SET = 'skillset';
 
     /* SVG Definitions */
 
@@ -69,25 +73,29 @@ class Link
         <circle cx="25" cy="25" r="12" stroke="white" stroke-width="2"/>
         </svg>';
 
-    public function __construct(Settings $settings, ?int $skillID = null)
+    public function __construct(Settings $settings, ?int $id = null)
     {
         $this->settings = $settings;
-        $this->skillID = $skillID;
+        $this->id = $id;
     }
 
     /**
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string URL to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationLink(string $vtype, ?int $skillID = null): string
+    public function getVerificationLink(string $vtype, ?int $id = null, string $type = self::SKILL): string
     {
-        $skillID = $skillID ?? $this->skillID;
-
-        if ($skillID === null) {
-            throw new \InvalidArgumentException('No skill ID provided.', 1599723825);
+        if ($type !== static::SKILL && $type !== static::SKILL_SET) {
+            throw new \Exception('$type has to be "' . static::SKILL . '" or "' . static::SKILL_SET . '" but "' . $type . '" given.', 1600774955);
         }
 
-        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/skill/' . $skillID . '/0/';
+        $id = $id ?? $this->id;
+
+        if ($id === null) {
+            throw new \InvalidArgumentException('No ID provided.', 1599723825);
+        }
+
+        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/' . $type . '/' . $id . '/0/';
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
                 $link .= '2';
@@ -110,7 +118,7 @@ class Link
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string SVG Button to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationButton(string $vtype, ?int $skillID = null): string
+    public function getVerificationButton(string $vtype, ?int $id = null, string $type = self::SKILL): string
     {
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
@@ -127,7 +135,7 @@ class Link
                 break;
         }
         return <<<BUTTON
-            <a href="{$this->getVerificationLink($vtype, $skillID)}" target="_blank">{$buttonsvg}</a>
+            <a href="{$this->getVerificationLink($vtype, $id, $type)}" target="_blank">{$buttonsvg}</a>
 BUTTON;
     }
 }
