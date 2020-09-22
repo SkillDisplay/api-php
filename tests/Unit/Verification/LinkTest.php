@@ -198,4 +198,19 @@ class LinkTest extends TestCase
             $subject->getVerificationButton('self')
         );
     }
+
+    /**
+     * @test
+     */
+    public function throwsExceptionIfNoSkillIdIsProvided()
+    {
+        $settings = $this->prophesize(Settings::class);
+        $settings->getMySkillDisplayUrl()->willReturn('https://my.example.com/verify');
+
+        $subject = new Link($settings->reveal());
+
+        $this->expectExceptionMessage('No skill ID provided.');
+        $this->expectExceptionCode(1599723825);
+        $subject->getVerificationLink('education');
+    }
 }
