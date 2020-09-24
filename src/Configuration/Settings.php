@@ -1,50 +1,36 @@
 <?php
+declare(strict_types=1);
 
 namespace SkillDisplay\PHPToolKit\Configuration;
 
-class Settings{
+class Settings
+{
+    private string $user_secret;
+    private string $apiKey;
+    private int $verifierID;
+    private string $APIUrl;
+    private string $mySkillDisplayUrl;
 
-    private string $user_secret = '';
-    private string $apiKey = '';
-    private int $verifierID = 0;
-    private string $APIUrl = '';
-    private string $mySkillDisplayUrl = '';
-
-    /**
-     * @return int
-     */
     public function getVerifierID(): int
     {
         return $this->verifierID;
     }
 
-    /**
-     * @return string
-     */
     public function getUserSecret(): string
     {
         return $this->user_secret;
     }
 
-    /**
-     * @return string
-     */
     public function getApiKey(): string
     {
         return $this->apiKey;
     }
 
-    /**
-     * @return string
-     */
     public function getAPIUrl(): string
     {
         return $this->APIUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getMySkillDisplayUrl(): string
     {
         return $this->mySkillDisplayUrl;
@@ -52,6 +38,7 @@ class Settings{
 
     /**
      * Settings constructor.
+     *
      * @param string $apiKey API Key to allow the application to use the endpoint
      * @param int $verifierID ID of the Verifier entry, necessary for Educational-Verification, Business-Verification or Certification
      * @param string $user_secret Secret Key of the Verifier - necessary for Educational-Verification, Business-Verification or Certification
@@ -62,8 +49,7 @@ class Settings{
         $this->apiKey = $apiKey;
         $this->verifierID = $verifierID;
         $this->user_secret = $user_secret;
-        $this->APIUrl = (is_null($domain)) ? 'https://www.skilldisplay.eu' : 'https://'.$domain;
-        $this->mySkillDisplayUrl = (is_null($domain)) ? 'https://my.skilldisplay.eu' : 'https://my.'.$domain;
+        $this->APIUrl = is_null($domain) ? 'https://www.skilldisplay.eu' : 'https://' . $domain;
+        $this->mySkillDisplayUrl = is_null($domain) ? 'https://my.skilldisplay.eu' : 'https://my.' . $domain;
     }
 }
-

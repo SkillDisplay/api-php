@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace SkillDisplay\PHPToolKit\Verification;
 
@@ -6,12 +7,11 @@ use SkillDisplay\PHPToolKit\Configuration\Settings;
 
 /**
  * Class Link
- * @package SkillDisplay\PHPToolKit\Verification
  *
  * Creates and manages Verification Links for Skills
  */
-class Link{
-
+class Link
+{
     private int $skillID;
     private Settings $settings;
 
@@ -48,7 +48,8 @@ class Link{
         <circle cx="25" cy="25" r="12" stroke="white" stroke-width="2"/>
         </svg>';
 
-    public function __construct(Settings $settings, int $skillID){
+    public function __construct(Settings $settings, int $skillID)
+    {
         $this->settings = $settings;
         $this->skillID = $skillID;
     }
@@ -57,7 +58,7 @@ class Link{
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string URL to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationLink(string $vtype) : string
+    public function getVerificationLink(string $vtype): string
     {
         $link = $this->settings->getMySkillDisplayUrl() . '/skillup/skill/' . $this->skillID . '/0/';
         switch ($vtype) {
@@ -82,7 +83,7 @@ class Link{
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @return string SVG Button to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
      */
-    public function getVerificationButton(string $vtype) : string
+    public function getVerificationButton(string $vtype): string
     {
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
@@ -102,8 +103,4 @@ class Link{
             <a href="{$this->getVerificationLink($vtype)}" target="_blank">{$buttonsvg}</a>
 BUTTON;
     }
-
-
-
-
 }
