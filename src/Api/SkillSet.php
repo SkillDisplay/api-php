@@ -55,19 +55,32 @@ class SkillSet
         }
 
         $url = $this->settings->getAPIUrl() . '/api/v1/skillset/' . $id;
-        $result = $this->client->send(new Request(
-            'GET',
-            $url,
-            [
-                'Content-Type' => 'application/json',
-                'x-api-key' => $this->settings->getApiKey()
-            ]
-        ));
-
-        if ($result->getStatusCode() !== 200) {
-            throw new \Exception('Did not get proper response for skill.', 1600694312);
+        try {
+            $result = $this->client->send(new Request(
+                'GET',
+                $url,
+                [
+                    'Content-Type' => 'application/json',
+                    'x-api-key' => $this->settings->getApiKey()
+                ]
+            ));
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404) {
+                throw new \InvalidArgumentException('Given SkillSet with id "' . $id . '" not available.', 1601881616);
+            }
+            throw $e;
         }
 
-        return Entity::createFromJson((string) $result->getBody());
+        if ($result->getStatusCode() !== 200) {
+            throw new \Exception('Did not get proper response for SkillSet.', 1600694312);
+        }
+
+        $body = (string) $result->getBody();
+
+        if (strpos($body, 'Oops, an error occurred') !== false) {
+            throw new \Exception('Did not get proper response for SkillSet. SkillSet with id "' . $id . '" does probably not exist.', 1600694312);
+        }
+
+        return Entity::createFromJson($body);
     }
 }

@@ -108,7 +108,7 @@ class SkillSetTest extends TestCase
             $client->reveal()
         );
 
-        $this->expectExceptionMessage('Did not get proper response for skill.');
+        $this->expectExceptionMessage('Did not get proper response for SkillSet.');
         $this->expectExceptionCode(1600694312);
 
         $result = $subject->getById(10);

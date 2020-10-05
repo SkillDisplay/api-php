@@ -24,6 +24,7 @@ namespace SkillDisplay\PHPToolKit\Api;
  */
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 use SkillDisplay\PHPToolKit\Entity\Skill as Entity;
@@ -55,14 +56,21 @@ class Skill
         }
 
         $url = $this->settings->getAPIUrl() . '/api/v1/skill/' . $id;
-        $result = $this->client->send(new Request(
-            'GET',
-            $url,
-            [
-                'Content-Type' => 'application/json',
-                'x-api-key' => $this->settings->getApiKey()
-            ]
-        ));
+        try {
+            $result = $this->client->send(new Request(
+                'GET',
+                $url,
+                [
+                    'Content-Type' => 'application/json',
+                    'x-api-key' => $this->settings->getApiKey()
+                ]
+            ));
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404) {
+                throw new \InvalidArgumentException('Given Skill with id "' . $id . '" not available.', 1601881616);
+            }
+            throw $e;
+        }
 
         if ($result->getStatusCode() !== 200) {
             throw new \Exception('Did not get proper response for skill.', 1600694312);
