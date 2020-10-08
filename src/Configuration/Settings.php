@@ -1,15 +1,35 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SkillDisplay\PHPToolKit\Configuration;
 
 class Settings
 {
-    private string $user_secret;
-    private string $apiKey;
-    private int $verifierID;
-    private string $APIUrl;
-    private string $mySkillDisplayUrl;
+    /**
+     * @var string
+     */
+    private $user_secret = '';
+
+    /**
+     * @var string
+     */
+    private $apiKey = '';
+
+    /**
+     * @var int
+     */
+    private $verifierID = 0;
+
+    /**
+     * @var string
+     */
+    private $APIUrl = '';
+
+    /**
+     * @var string
+     */
+    private $mySkillDisplayUrl = '';
 
     public function getVerifierID(): int
     {
@@ -49,7 +69,7 @@ class Settings
         $this->apiKey = $apiKey;
         $this->verifierID = $verifierID;
         $this->user_secret = $user_secret;
-        $this->APIUrl = is_null($domain) ? 'https://www.skilldisplay.eu' : 'https://' . $domain;
-        $this->mySkillDisplayUrl = is_null($domain) ? 'https://my.skilldisplay.eu' : 'https://my.' . $domain;
+        $this->APIUrl = (is_null($domain)) ? 'https://www.skilldisplay.eu' : 'https://' . $domain;
+        $this->mySkillDisplayUrl = (is_null($domain)) ? 'https://my.skilldisplay.eu' : 'https://my.' . $domain;
     }
 }
