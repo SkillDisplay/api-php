@@ -25,13 +25,16 @@ class Issuer
      * @param string $useremail E-Mail of the User who should receive the verification
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @param bool $isSkillSet
+     * @param int $campaignId
+     *
      * @return array
      */
     private function generateSignedRequestData(
         int $ID,
         string $useremail,
         string $vtype,
-        bool $isSkillSet = false
+        bool $isSkillSet = false,
+        int $campaignId = 0
     ): array {
         if ($isSkillSet) {
             $requestData['SkillSetId'] = $ID;
@@ -43,6 +46,9 @@ class Issuer
         $requestData['VerifierId'] = $this->settings->getVerifierID();
         $requestData['Username'] = $useremail;
         $requestData['AutoConfirm'] = true;
+        if ($campaignId) {
+            $requestData['CampaignId'] = $campaignId;
+        }
         $requestData['Signature'] = '';
 
         $json = json_encode($requestData);
@@ -72,15 +78,17 @@ class Issuer
      * @param string $useremail E-Mail of the SkillDisplay user for whom you want to verify the skill
      * @param string $vtype Verification type, one of the constants in /src/Constants/VerificationTypes.php
      * @param bool $isSkillSet is the passed ID that of a SkillSet (else it is a single skill, also default)
+     * @param int $campaignId An optional campaign ID the verification is attributed to
      * @return ResponseInterface
      */
     public function issueVerification(
         int $skillID,
         string $useremail,
         string $vtype,
-        bool $isSkillSet = false
+        bool $isSkillSet = false,
+        int $campaignId = 0
     ): ResponseInterface {
-        $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype, $isSkillSet);
+        $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype, $isSkillSet, $campaignId);
 
         $client = new \GuzzleHttp\Client();
         $request = new Request(

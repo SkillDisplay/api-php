@@ -42,7 +42,7 @@ class LinkTest extends TestCase
     /**
      * @test
      */
-    public function canReturnSkillVerificationLinkForEducational()
+    public function canReturnSkillVerificationLinkForEducationalWithCampaign()
     {
         $settings = $this->prophesize(Settings::class);
         $settings->getMySkillDisplayUrl()->willReturn('https://my.example.com/verify');
@@ -50,8 +50,8 @@ class LinkTest extends TestCase
         $subject = new Link($settings->reveal(), 10);
 
         static::assertSame(
-            'https://my.example.com/verify/skillup/skill/10/0/2',
-            $subject->getVerificationLink('education')
+            'https://my.example.com/verify/skillup/skill/10/0/2/678',
+            $subject->getVerificationLink('education', null, Link::SKILL, 678)
         );
     }
 

@@ -81,9 +81,13 @@ class Link
 
     /**
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
+     * @param int|null $id The ID of the skill or skillset
+     * @param string $type one of SKILL or SKILL_SET
+     * @param int $campaignId An optional campaign ID the verification is attributed to
      * @return string URL to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
+     * @throws \Exception
      */
-    public function getVerificationLink(string $vtype, ?int $id = null, string $type = self::SKILL): string
+    public function getVerificationLink(string $vtype, ?int $id = null, string $type = self::SKILL, int $campaignId = 0): string
     {
         if ($type !== static::SKILL && $type !== static::SKILL_SET) {
             throw new \Exception('$type has to be "' . static::SKILL . '" or "' . static::SKILL_SET . '" but "' . $type . '" given.', 1600774955);
@@ -95,7 +99,7 @@ class Link
             throw new \InvalidArgumentException('No ID provided.', 1599723825);
         }
 
-        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/' . $type . '/' . $id . '/0/';
+        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/' . $type . '/' . $id . '/0/' . ($campaignId ?: '');
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
                 $link .= '2';
@@ -116,9 +120,13 @@ class Link
 
     /**
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
+     * @param int|null $id The ID of the skill or skillset
+     * @param string $type one of SKILL or SKILL_SET
+     * @param int $campaignId An optional campaign ID the verification is attributed to
      * @return string SVG Button to a Verification that a user can click, he/she will see the Verification interface and can choose a verifier
+     * @throws \Exception
      */
-    public function getVerificationButton(string $vtype, ?int $id = null, string $type = self::SKILL): string
+    public function getVerificationButton(string $vtype, ?int $id = null, string $type = self::SKILL, int $campaignId = 0): string
     {
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
@@ -135,7 +143,7 @@ class Link
                 break;
         }
         return <<<BUTTON
-            <a href="{$this->getVerificationLink($vtype, $id, $type)}" target="_blank">{$buttonsvg}</a>
+            <a href="{$this->getVerificationLink($vtype, $id, $type, $campaignId)}" target="_blank">{$buttonsvg}</a>
 BUTTON;
     }
 }
