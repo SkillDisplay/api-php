@@ -30,6 +30,11 @@ class SkillSet
      */
     private $data;
 
+    /**
+     * @var array
+     */
+    private $skills = [];
+
     private function __construct(array $data)
     {
         $this->data = $data;
@@ -55,17 +60,15 @@ class SkillSet
      */
     public function getSkills(): array
     {
-        static $skills = [];
-
-        if ($skills !== []) {
-            return $skills;
+        if ($this->skills !== []) {
+            return $this->skills;
         }
 
         foreach ($this->data['skills'] as $skill) {
-            $skills[] = Skill::createFromJson(json_encode($skill));
+            $this->skills[] = Skill::createFromJson(json_encode($skill));
         }
 
-        return $skills;
+        return $this->skills;
     }
 
     public function toArray(): array

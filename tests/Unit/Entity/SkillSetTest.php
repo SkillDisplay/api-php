@@ -104,6 +104,18 @@ class SkillSetTest extends TestCase
     /**
      * @test
      */
+    public function twoDifferentInstancesProvideTheirOwnSkills()
+    {
+        $subject1 = SkillSet::createFromJson('{"skills":[{"uid":90,"title":"Example title 1"},{"goals":"<p>Example goals</p>","uid":91,"title":"Example title 2"}]}');
+        $subject2 = SkillSet::createFromJson('{"skills":[{"uid":80,"title":"Example title 10"},{"goals":"<p>Example goals</p>","uid":81,"title":"Example title 11"}]}');
+
+        static::assertSame(90, $subject1->getSkills()[0]->getId());
+        static::assertSame(80, $subject2->getSkills()[0]->getId());
+    }
+
+    /**
+     * @test
+     */
     public function canBeConvertedToArray()
     {
         $subject = SkillSet::createFromJson('{"uid":90,"name":"Example name"}');
