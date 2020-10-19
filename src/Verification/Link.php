@@ -99,7 +99,14 @@ class Link
             throw new \InvalidArgumentException('No ID provided.', 1599723825);
         }
 
-        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/' . $type . '/' . $id . '/0/';
+        $link = $this->settings->getMySkillDisplayUrl() . '/skillup/' . $type . '/';
+
+        if ($type === self::SKILL_SET) {
+            $link .= '0/' . $id . '/';
+        } else {
+            $link .= $id . '/0/';
+        }
+
         switch ($vtype) {
             case VERIFICATION_EDUCATIONAL:
                 $link .= '2';
