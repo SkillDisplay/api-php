@@ -81,6 +81,6 @@ class SkillSet
             throw new \Exception('Did not get proper response for SkillSet. SkillSet with id "' . $id . '" does probably not exist.', 1600694312);
         }
 
-        return Entity::createFromJson($body);
+        return Entity::createFromJson($body, $this->settings);
     }
 }

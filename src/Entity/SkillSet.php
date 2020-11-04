@@ -23,6 +23,8 @@ namespace SkillDisplay\PHPToolKit\Entity;
  * 02110-1301, USA.
  */
 
+use SkillDisplay\PHPToolKit\Configuration\Settings;
+
 class SkillSet
 {
     /**
@@ -31,13 +33,24 @@ class SkillSet
     private $data;
 
     /**
+     * @var Settings
+     */
+    private $settings;
+
+    /**
      * @var array
      */
     private $skills = [];
 
-    private function __construct(array $data)
+    /**
+     * @var Brand|null
+     */
+    private $brand = null;
+
+    private function __construct(array $data, Settings $settings)
     {
         $this->data = $data;
+        $this->settings = $settings;
     }
 
     public function getId(): int
@@ -55,6 +68,27 @@ class SkillSet
         return $this->data['description'] ?? '';
     }
 
+    public function getBrand(): Brand
+    {
+        if ($this->brand instanceof Brand) {
+            return $this->brand;
+        }
+
+        $this->brand = Brand::createFromJson(json_encode($this->data['brand']), $this->settings);
+
+        return $this->brand;
+    }
+
+    public function getMediaPublicUrl(): string
+    {
+        $mediaUrl = $this->data['mediaPublicUrl'] ?? '';
+        if ($mediaUrl === '') {
+            return '';
+        }
+
+        return $this->settings->getMySkillDisplayUrl() . '/' . $mediaUrl;
+    }
+
     /**
      * @return Skill[]
      */
@@ -65,10 +99,16 @@ class SkillSet
         }
 
         foreach ($this->data['skills'] as $skill) {
-            $this->skills[] = Skill::createFromJson(json_encode($skill));
+            $this->skills[] = Skill::createFromJson(json_encode($skill), $this->settings);
         }
 
         return $this->skills;
+    }
+
+    // In order to support frameworks / APIs that expect "getter".
+    public function getAsArray(): array
+    {
+        return $this->toArray();
     }
 
     public function toArray(): array
@@ -76,8 +116,8 @@ class SkillSet
         return $this->data;
     }
 
-    public static function createFromJson(string $json): SkillSet
+    public static function createFromJson(string $json, Settings $settings): SkillSet
     {
-        return new SkillSet(json_decode($json, true));
+        return new SkillSet(json_decode($json, true), $settings);
     }
 }
