@@ -24,6 +24,9 @@ namespace SkillDisplay\PHPToolKit\Tests\Unit\Entity;
  */
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
+use SkillDisplay\PHPToolKit\Configuration\Settings;
+use SkillDisplay\PHPToolKit\Entity\Brand;
 use SkillDisplay\PHPToolKit\Entity\SkillSet;
 
 /**
@@ -31,6 +34,8 @@ use SkillDisplay\PHPToolKit\Entity\SkillSet;
  */
 class SkillSetTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @test
      */
@@ -45,7 +50,8 @@ class SkillSetTest extends TestCase
      */
     public function instanceCanBeCreatedFromJson()
     {
-        $subject = SkillSet::createFromJson('{}');
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{}', $settings->reveal());
         static::assertInstanceOf(SkillSet::class, $subject);
     }
 
@@ -54,7 +60,8 @@ class SkillSetTest extends TestCase
      */
     public function instanceReturnsId()
     {
-        $subject = SkillSet::createFromJson('{"uid":90}');
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"uid":90}', $settings->reveal());
         static::assertSame(90, $subject->getId());
     }
 
@@ -63,7 +70,8 @@ class SkillSetTest extends TestCase
      */
     public function instanceReturnsName()
     {
-        $subject = SkillSet::createFromJson('{"name":"Example name"}');
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"name":"Example name"}', $settings->reveal());
         static::assertSame('Example name', $subject->getName());
     }
 
@@ -72,8 +80,41 @@ class SkillSetTest extends TestCase
      */
     public function instanceReturnsDescription()
     {
-        $subject = SkillSet::createFromJson('{"description":"<p>Example description</p>"}');
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"description":"<p>Example description</p>"}', $settings->reveal());
         static::assertSame('<p>Example description</p>', $subject->getDescription());
+    }
+
+    /**
+     * @test
+     */
+    public function instanceReturnsBrand()
+    {
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"brand":{"uid":"10"}}', $settings->reveal());
+        static::assertInstanceOf(Brand::class, $subject->getBrand());
+    }
+
+    /**
+     * @test
+     */
+    public function instanceReturnsEmptyStringAsMediaPublicUrlPrefixedWithConfiguredMySkillDisplayUrl()
+    {
+        $settings = $this->prophesize(Settings::class);
+        $settings->getMySkillDisplayUrl()->willReturn('https://example.com');
+        $subject = SkillSet::createFromJson('{"mediaPublicUrl":""}', $settings->reveal());
+        static::assertSame('', $subject->getMediaPublicUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function instanceReturnsMediaPublicUrlPrefixedWithConfiguredMySkillDisplayUrl()
+    {
+        $settings = $this->prophesize(Settings::class);
+        $settings->getMySkillDisplayUrl()->willReturn('https://example.com');
+        $subject = SkillSet::createFromJson('{"mediaPublicUrl":"fileadmin/SkillSets/Images/TYPO3/TCCD_10LTS.jpg"}', $settings->reveal());
+        static::assertSame('https://example.com/fileadmin/SkillSets/Images/TYPO3/TCCD_10LTS.jpg', $subject->getMediaPublicUrl());
     }
 
     /**
@@ -81,7 +122,8 @@ class SkillSetTest extends TestCase
      */
     public function instanceReturnsSkills()
     {
-        $subject = SkillSet::createFromJson('{"skills":[{"uid":90,"title":"Example title 1"},{"goals":"<p>Example goals</p>","uid":91,"title":"Example title 2"}]}');
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"skills":[{"uid":90,"title":"Example title 1"},{"goals":"<p>Example goals</p>","uid":91,"title":"Example title 2"}]}', $settings->reveal());
         $skills = $subject->getSkills();
 
         static::assertCount(2, $skills);
@@ -94,7 +136,8 @@ class SkillSetTest extends TestCase
      */
     public function instanceReturnsSameSkillInstancesA2ndTime()
     {
-        $subject = SkillSet::createFromJson('{"skills":[{"uid":90,"title":"Example title 1"},{"goals":"<p>Example goals</p>","uid":91,"title":"Example title 2"}]}');
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"skills":[{"uid":90,"title":"Example title 1"},{"goals":"<p>Example goals</p>","uid":91,"title":"Example title 2"}]}', $settings->reveal());
         $skillsFirstCall = $subject->getSkills();
         $skillsSecondCall = $subject->getSkills();
 
@@ -106,8 +149,9 @@ class SkillSetTest extends TestCase
      */
     public function twoDifferentInstancesProvideTheirOwnSkills()
     {
-        $subject1 = SkillSet::createFromJson('{"skills":[{"uid":90,"title":"Example title 1"},{"goals":"<p>Example goals</p>","uid":91,"title":"Example title 2"}]}');
-        $subject2 = SkillSet::createFromJson('{"skills":[{"uid":80,"title":"Example title 10"},{"goals":"<p>Example goals</p>","uid":81,"title":"Example title 11"}]}');
+        $settings = $this->prophesize(Settings::class);
+        $subject1 = SkillSet::createFromJson('{"skills":[{"uid":90,"title":"Example title 1"},{"goals":"<p>Example goals</p>","uid":91,"title":"Example title 2"}]}', $settings->reveal());
+        $subject2 = SkillSet::createFromJson('{"skills":[{"uid":80,"title":"Example title 10"},{"goals":"<p>Example goals</p>","uid":81,"title":"Example title 11"}]}', $settings->reveal());
 
         static::assertSame(90, $subject1->getSkills()[0]->getId());
         static::assertSame(80, $subject2->getSkills()[0]->getId());
@@ -116,9 +160,23 @@ class SkillSetTest extends TestCase
     /**
      * @test
      */
+    public function canReturnAsArray()
+    {
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"uid":90,"name":"Example name"}', $settings->reveal());
+        static::assertSame([
+            'uid' => 90,
+            'name' => 'Example name',
+        ], $subject->getAsArray());
+    }
+
+    /**
+     * @test
+     */
     public function canBeConvertedToArray()
     {
-        $subject = SkillSet::createFromJson('{"uid":90,"name":"Example name"}');
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"uid":90,"name":"Example name"}', $settings->reveal());
         static::assertSame([
             'uid' => 90,
             'name' => 'Example name',

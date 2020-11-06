@@ -76,6 +76,6 @@ class Skill
             throw new \Exception('Did not get proper response for skill.', 1600694312);
         }
 
-        return Entity::createFromJson((string) $result->getBody());
+        return Entity::createFromJson((string) $result->getBody(), $this->settings);
     }
 }

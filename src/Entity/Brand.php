@@ -25,7 +25,7 @@ namespace SkillDisplay\PHPToolKit\Entity;
 
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 
-class Skill
+class Brand
 {
     /**
      * @var array
@@ -36,11 +36,6 @@ class Skill
      * @var Settings
      */
     private $settings;
-
-    /**
-     * @var array
-     */
-    private $brands = [];
 
     private function __construct(array $data, Settings $settings)
     {
@@ -53,35 +48,24 @@ class Skill
         return $this->data['uid'];
     }
 
-    public function getTitle(): string
+    public function getName(): string
     {
-        return $this->data['title'] ?? '';
+        return $this->data['name'] ?? '';
     }
 
-    public function getDescription(): string
+    public function getUrl(): string
     {
-        return $this->data['description'] ?? '';
+        return $this->data['url'] ?? '';
     }
 
-    public function getGoals(): string
+    public function getLogoPublicUrl(): string
     {
-        return $this->data['goals'] ?? '';
-    }
-
-    /**
-     * @return Brand[]
-     */
-    public function getBrands(): array
-    {
-        if ($this->brands !== []) {
-            return $this->brands;
+        $mediaUrl = $this->data['logoPublicUrl'] ?? '';
+        if ($mediaUrl === '') {
+            return '';
         }
 
-        foreach ($this->data['brands'] as $brand) {
-            $this->brands[] = Brand::createFromJson(json_encode($brand), $this->settings);
-        }
-
-        return $this->brands;
+        return $this->settings->getMySkillDisplayUrl() . '/' . $mediaUrl;
     }
 
     // In order to support frameworks / APIs that expect "getter".
@@ -95,8 +79,8 @@ class Skill
         return $this->data;
     }
 
-    public static function createFromJson(string $json, Settings $settings): Skill
+    public static function createFromJson(string $json, Settings $settings): Brand
     {
-        return new Skill(json_decode($json, true), $settings);
+        return new Brand(json_decode($json, true), $settings);
     }
 }
