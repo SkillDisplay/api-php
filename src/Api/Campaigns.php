@@ -65,7 +65,7 @@ class Campaigns
             if ($e->getCode() === 400) {
                 throw new \InvalidArgumentException($e->getMessage(), 1605877581);
             }
-           throw $e;
+            throw $e;
         }
 
         if ($result->getStatusCode() !== 200) {
