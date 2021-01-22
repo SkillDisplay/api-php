@@ -71,7 +71,7 @@ class Campaigns
         if ($result->getStatusCode() !== 200) {
             throw new \Exception('API key or user invalid.', 1605878128);
         }
-        $body = json_decode($result->getBody(), true);
+        $body = json_decode((string) $result->getBody(), true);
         $campaigns = [];
         foreach ($body['Campaigns'] as $campaign) {
             $campaigns[] = new Campaign($campaign, $this->settings);
