@@ -101,7 +101,7 @@ class BrandTest extends TestCase
     public function instanceReturnsLogoPublicUrlPrefixedWithConfiguredMySkillDisplayUrl()
     {
         $settings = $this->prophesize(Settings::class);
-        $settings->getMySkillDisplayUrl()->willReturn('https://example.com');
+        $settings->getAPIUrl()->willReturn('https://example.com');
         $subject = Brand::createFromJson('{"logoPublicUrl":"fileadmin/SkillSets/Images/TYPO3/TCCD_10LTS.jpg"}', $settings->reveal());
         static::assertSame('https://example.com/fileadmin/SkillSets/Images/TYPO3/TCCD_10LTS.jpg', $subject->getLogoPublicUrl());
     }

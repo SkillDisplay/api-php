@@ -112,7 +112,7 @@ class SkillSetTest extends TestCase
     public function instanceReturnsMediaPublicUrlPrefixedWithConfiguredMySkillDisplayUrl()
     {
         $settings = $this->prophesize(Settings::class);
-        $settings->getMySkillDisplayUrl()->willReturn('https://example.com');
+        $settings->getAPIUrl()->willReturn('https://example.com');
         $subject = SkillSet::createFromJson('{"mediaPublicUrl":"fileadmin/SkillSets/Images/TYPO3/TCCD_10LTS.jpg"}', $settings->reveal());
         static::assertSame('https://example.com/fileadmin/SkillSets/Images/TYPO3/TCCD_10LTS.jpg', $subject->getMediaPublicUrl());
     }
