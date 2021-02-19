@@ -86,7 +86,7 @@ class SkillSet
             return '';
         }
 
-        return $this->settings->getMySkillDisplayUrl() . '/' . $mediaUrl;
+        return $this->settings->getAPIUrl() . '/' . $mediaUrl;
     }
 
     /**

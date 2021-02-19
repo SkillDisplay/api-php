@@ -65,7 +65,7 @@ class Brand
             return '';
         }
 
-        return $this->settings->getMySkillDisplayUrl() . '/' . $mediaUrl;
+        return $this->settings->getAPIUrl() . '/' . $mediaUrl;
     }
 
     // In order to support frameworks / APIs that expect "getter".
