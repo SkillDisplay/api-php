@@ -24,6 +24,7 @@ namespace SkillDisplay\PHPToolKit\Api;
  */
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 use SkillDisplay\PHPToolKit\Entity\SkillSet as Entity;
@@ -48,13 +49,16 @@ class SkillSet
         $this->client = $client;
     }
 
-    public function getById(int $id): Entity
+    public function getById(int $id, bool $includeFullSkills = false): Entity
     {
         if ($id <= 0) {
             throw new \Exception('ID of SkillSet has to be a positive integer.', 1600764811);
         }
 
         $url = $this->settings->getAPIUrl() . '/api/v1/skillset/' . $id;
+        if ($includeFullSkills) {
+            $url .= '?includeFullSkills';
+        }
         try {
             $result = $this->client->send(new Request(
                 'GET',
