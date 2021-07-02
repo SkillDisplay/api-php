@@ -34,7 +34,8 @@ class Issuer
         string $useremail,
         string $vtype,
         bool $isSkillSet = false,
-        int $campaignId = 0
+        int $campaignId = 0,
+        bool $autoConfirm = true
     ): array {
         if ($isSkillSet) {
             $requestData['SkillSetId'] = $ID;
@@ -45,7 +46,7 @@ class Issuer
         $requestData['Level'] = $vtype;
         $requestData['VerifierId'] = $this->settings->getVerifierID();
         $requestData['Username'] = $useremail;
-        $requestData['AutoConfirm'] = true;
+        $requestData['AutoConfirm'] = $autoConfirm;
         if ($campaignId) {
             $requestData['CampaignId'] = $campaignId;
         }
@@ -86,9 +87,10 @@ class Issuer
         string $useremail,
         string $vtype,
         bool $isSkillSet = false,
-        int $campaignId = 0
+        int $campaignId = 0,
+        bool $autoConfirm = true
     ): ResponseInterface {
-        $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype, $isSkillSet, $campaignId);
+        $requestData = $this->generateSignedRequestData($skillID, $useremail, $vtype, $isSkillSet, $campaignId, $autoConfirm);
 
         $client = new \GuzzleHttp\Client();
         $request = new Request(
