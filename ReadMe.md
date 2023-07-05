@@ -16,7 +16,7 @@ The PHP Toolkit is designed to help you connecting your own PHP application with
 Self-Verifications are a users way to say "I can do this". This is like writing it in a resumée, but instead of an arbitrary text the claim is put into context of Skills on European level.
 
 You'll want to include Self-Verification in your application for all matters of self-study. (Completing a tech article, Progressing in a Tutorial, etc.)
- 
+
 ### External Verifications
  These Verifications require a second party - a person or organization who is tasked with verifying Skills of users in a specific context.
  - Automatic Educational-Verification: Grant skill verification via an exam system in a school, an automated review after a coaching, etc.
@@ -35,19 +35,19 @@ Included examples:
 ### Automatic Self-Verifications
  In order to implement automatic Self-Verification for Skills you need:
  - An API Key
- 
+
  Obtaining an API Key is easy. Just write us an E-Mail to [partners@skilldisplay.eu], and let us know your use-case. We'll then send you an API Key.
- 
+
 Included examples:
 - grant automatic Self-Verification of a skill to a user for whom you know the SkillDisplay E-Mail Account  (src/Example/APIKeyRequired/AutoGrantSelfVerification.php)
-  
+
  ### Automatic External-Verification
 
  In order to implement these types of Verification for Skills you need:
  - An API Key
  - A VerifierID
  - A Verifier secret key
- 
+
  We grant a VerifierID and a Verifier secret key to our partners.
  - Business Representatives: https://www.skilldisplay.eu/en/platform-guide/skilldisplay-for-business-persons/
  - Educators: https://www.skilldisplay.eu/en/platform-guide/skilldisplay-for-educators/
@@ -57,3 +57,10 @@ Included examples:
 - grant automatic Business-Verification of a skill to a user for whom you know the SkillDisplay E-Mail Account (src/Example/FullSettingsRequired/AutoGrantBusinessVerification.php)
 
  [partners@skilldisplay.eu]:(mailto:partners@skilldisplay.eu?subject=APIKey)
+
+## Developer info
+
+To fetch dependencies locally use:
+
+`docker run --rm -it -v $PWD:/app composer composer install`
+
