@@ -48,7 +48,7 @@ class OrganisationTest extends TestCase
         $settings->getApiKey()->willReturn('none');
 
         $client->send(Argument::that(function (Request $request) {
-            return (string)$request->getUri() === 'https://example.com/api/v1/organisation/10/statistic'
+            return (string)$request->getUri() === 'https://example.com/api/v1/organisation/10/statistics'
                 && $request->getHeader('x-api-key') === ['none']
                 && $request->getHeader('Content-Type') === ['application/json']
                 && $request->getMethod() === 'GET';
