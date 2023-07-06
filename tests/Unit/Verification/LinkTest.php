@@ -166,7 +166,7 @@ class LinkTest extends TestCase
             $subject->getVerificationLink('self', null, Link::SKILL_SET)
         );
     }
- 
+
     /**
      * @test
      */
