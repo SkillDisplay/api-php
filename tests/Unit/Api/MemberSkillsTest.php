@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SkillDisplay\PHPToolKit\Tests\Unit\Api;
 
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Utils;
 use Prophecy\Argument;
 use SkillDisplay\PHPToolKit\Api\MemberSkills;
 use SkillDisplay\PHPToolKit\Configuration\Settings;
@@ -53,7 +54,7 @@ class MemberSkillsTest extends TestCase
         }))->willReturn($response->reveal());
 
         $response->getStatusCode()->willReturn(200);
-        $response->getBody()->willReturn('[{"uid": 1},{"uid": 2}]');
+        $response->getBody()->willReturn(Utils::streamFor('[{"uid": 1},{"uid": 2}]'));
 
         $subject = new MemberSkills($settings->reveal(), $client->reveal());
         $skills = $subject->getMemberSkillsById(10);

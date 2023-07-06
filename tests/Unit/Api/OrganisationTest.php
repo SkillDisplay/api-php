@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SkillDisplay\PHPToolKit\Tests\Unit\Api;
 
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Utils;
 use Prophecy\Argument;
 use SkillDisplay\PHPToolKit\Api\Organisation;
 use SkillDisplay\PHPToolKit\Api\SkillSet;
@@ -54,7 +55,7 @@ class OrganisationTest extends TestCase
         }))->willReturn($response->reveal());
 
         $response->getStatusCode()->willReturn(200);
-        $response->getBody()->willReturn('{"uid":10}');
+        $response->getBody()->willReturn(Utils::streamFor('{"uid":10}'));
 
         $subject = new Organisation(
             $settings->reveal(),
