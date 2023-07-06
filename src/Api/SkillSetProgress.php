@@ -26,6 +26,7 @@ namespace SkillDisplay\PHPToolKit\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
+use InvalidArgumentException;
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 use SkillDisplay\PHPToolKit\Entity\SkillSetProgress as Entity;
 
@@ -47,7 +48,9 @@ class SkillSetProgress
         if ($id <= 0) {
             throw new \Exception('ID of SkillSet has to be a positive integer.', 1688639724754);
         }
-
+        if (!$this->settings->getApiKey()) {
+            throw new InvalidArgumentException('Missing API key', 1688660942);
+        }
         $url = $this->settings->getAPIUrl() . '/api/v1/skillset/' . $id . '/progress';
         try {
             $result = $this->client->send(new Request(
@@ -60,7 +63,7 @@ class SkillSetProgress
             ));
         } catch (ClientException $e) {
             if ($e->getCode() === 404) {
-                throw new \InvalidArgumentException('Given SkillSet with id "' . $id . '" not available.', 1688639748718);
+                throw new InvalidArgumentException('Given SkillSet with id "' . $id . '" not available.', 1688639748718);
             }
             throw $e;
         }

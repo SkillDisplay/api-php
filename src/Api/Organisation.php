@@ -6,7 +6,7 @@ namespace SkillDisplay\PHPToolKit\Api;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 use GuzzleHttp\Psr7\Request;
 use SkillDisplay\PHPToolKit\Entity\Organisation as Entity;
@@ -30,7 +30,10 @@ class Organisation
         if ($id <= 0) {
             throw new \Exception('ID of Organisation has to be a positive integer.');
         }
-        $url = $this->settings->getAPIUrl() . '/api/v1/organisation/' . $id . '/statistic';
+        if (!$this->settings->getApiKey()) {
+            throw new InvalidArgumentException('Missing API key', 1688660942);
+        }
+        $url = $this->settings->getAPIUrl() . '/api/v1/organisation/' . $id . '/statistics';
         try {
             $result = $this->client->send(new Request(
                 'GET',
