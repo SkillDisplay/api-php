@@ -27,15 +27,9 @@ use SkillDisplay\PHPToolKit\Configuration\Settings;
 
 class Campaign
 {
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
-    /**
-     * @var Settings
-     */
-    private $settings;
+    private Settings $settings;
 
     public function __construct(array $data, Settings $settings)
     {

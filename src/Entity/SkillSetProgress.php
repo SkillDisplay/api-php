@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SkillDisplay\PHPToolKit\Entity;
 
 /*
- * Copyright (C) 2020 Daniel Siepmann <coding@daniel-siepmann.de>
+ * Copyright (C) 2023 Julian Zangl <julian.zangl@outlook.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ namespace SkillDisplay\PHPToolKit\Entity;
 
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 
-class Brand
+class SkillSetProgress
 {
     private array $data;
 
@@ -37,44 +37,28 @@ class Brand
         $this->settings = $settings;
     }
 
-    public function getId(): int
+    public function getTier1(): float
     {
-        return $this->data['uid'];
+        return $this->data['tier1'] ?? 0;
     }
 
-    public function getName(): string
+    public function getTier2(): float
     {
-        return $this->data['name'] ?? '';
+        return $this->data['tier2'] ?? 0;
     }
 
-    public function getUrl(): string
+    public function getTier3(): float
     {
-        return $this->data['url'] ?? '';
+        return $this->data['tier3'] ?? 0;
     }
 
-    public function getLogoPublicUrl(): string
+    public function getTier4(): float
     {
-        $mediaUrl = $this->data['logoPublicUrl'] ?? '';
-        if ($mediaUrl === '') {
-            return '';
-        }
-
-        return $this->settings->getAPIUrl() . '/' . $mediaUrl;
+        return $this->data['tier4'] ?? 0;
     }
 
-    // In order to support frameworks / APIs that expect "getter".
-    public function getAsArray(): array
+    public static function createFromJson(string $json, Settings $settings): SkillSetProgress
     {
-        return $this->toArray();
-    }
-
-    public function toArray(): array
-    {
-        return $this->data;
-    }
-
-    public static function createFromJson(string $json, Settings $settings): Brand
-    {
-        return new Brand(json_decode($json, true), $settings);
+        return new SkillSetProgress(json_decode($json, true), $settings);
     }
 }

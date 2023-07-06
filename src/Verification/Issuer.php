@@ -10,15 +10,9 @@ use SkillDisplay\PHPToolKit\Configuration\Settings;
 
 class Issuer
 {
-    /**
-     * @var Settings
-     */
-    private $settings;
+    private Settings $settings;
 
-    /**
-     * @var string
-     */
-    private $apislug = '/api/v1/verification/create';
+    private string $apislug = '/api/v1/verification/create';
 
     /**
      * @param int $ID ID of the Skill or SkillSet
@@ -26,7 +20,7 @@ class Issuer
      * @param string $vtype one of VERIFICATION_SELF, VERIFICATION_EDUCATIONAL, VERIFICATION_BUSINESS, VERIFICATION_CERTIFICATION
      * @param bool $isSkillSet
      * @param int $campaignId
-     *
+     * @param bool $autoConfirm
      * @return array
      */
     private function generateSignedRequestData(
