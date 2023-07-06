@@ -40,7 +40,7 @@ class BrandTest extends TestCase
      */
     public function instanceCanNotBeCreatedViaConstructor()
     {
-        $this->expectErrorMessage('Call to private SkillDisplay\PHPToolKit\Entity\Brand::__construct() from context \'SkillDisplay\PHPToolKit\Tests\Unit\Entity\BrandTest\'');
+        $this->expectExceptionMessage('Call to private SkillDisplay\PHPToolKit\Entity\Brand::__construct() from scope SkillDisplay\PHPToolKit\Tests\Unit\Entity\BrandTest');
         new Brand();
     }
 
