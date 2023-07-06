@@ -41,7 +41,7 @@ class SkillSetTest extends TestCase
      */
     public function instanceCanNotBeCreatedViaConstructor()
     {
-        $this->expectErrorMessage('Call to private SkillDisplay\PHPToolKit\Entity\SkillSet::__construct() from context \'SkillDisplay\PHPToolKit\Tests\Unit\Entity\SkillSetTest\'');
+        $this->expectExceptionMessage('Call to private SkillDisplay\PHPToolKit\Entity\SkillSet::__construct() from scope SkillDisplay\PHPToolKit\Tests\Unit\Entity\SkillSetTest');
         new SkillSet();
     }
 
