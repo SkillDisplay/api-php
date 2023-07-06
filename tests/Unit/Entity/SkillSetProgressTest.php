@@ -84,5 +84,4 @@ class SkillSetProgressTest extends TestCase
         $progress = SkillSetProgress::createFromJson('{"tier4": 0}', $settings->reveal());
         static::assertSame(0.0, $progress->getTier4());
     }
-
 }

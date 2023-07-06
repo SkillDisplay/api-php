@@ -69,7 +69,7 @@ class SkillSetProgress
             throw new \Exception('Did not get proper response for SkillSetProgress.', 1688639840720);
         }
 
-        $body = (string)$result->getBody();
+        $body = (string) $result->getBody();
 
         if (strpos($body, 'Oops, an error occurred') !== false) {
             throw new \Exception('Did not get proper response for SkillSetProgress. SkillSet with id "' . $id . '" does probably not exist.', 1688639873065);

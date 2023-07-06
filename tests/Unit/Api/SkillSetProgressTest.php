@@ -26,6 +26,7 @@ namespace SkillDisplay\PHPToolKit\Tests\Unit\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use SkillDisplay\PHPToolKit\Api\SkillSetProgress;
@@ -73,12 +74,11 @@ class SkillSetProgressTest extends TestCase
             return (string) $request->getUri() === 'https://example.com/api/v1/skillset/10/progress'
                 && $request->getHeader('x-api-key') === ['none']
                 && $request->getHeader('Content-Type') === ['application/json']
-                && $request->getMethod() === 'GET'
-                ;
+                && $request->getMethod() === 'GET';
         }))->willReturn($response->reveal());
 
         $response->getStatusCode()->willReturn(200);
-        $response->getBody()->willReturn('{"tier3":44.44444444444444,"tier2":40.74074074074074,"tier1":0,"tier4":0}');
+        $response->getBody()->willReturn(Utils::streamFor('{"tier3":44.44444444444444,"tier2":40.74074074074074,"tier1":0,"tier4":0}'));
 
         $progress = new SkillSetProgress(
             $settings->reveal(),
@@ -145,6 +145,4 @@ class SkillSetProgressTest extends TestCase
             ],
         ];
     }
-
-
 }

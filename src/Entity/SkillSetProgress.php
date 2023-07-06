@@ -25,7 +25,8 @@ namespace SkillDisplay\PHPToolKit\Entity;
 
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 
-class SkillSetProgress {
+class SkillSetProgress
+{
     private array $data;
 
     private Settings $settings;
