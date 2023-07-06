@@ -26,6 +26,7 @@ namespace SkillDisplay\PHPToolKit\Tests\Unit\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use SkillDisplay\PHPToolKit\Api\Skill;
@@ -77,7 +78,7 @@ class SkillTest extends TestCase
         }))->willReturn($response->reveal());
 
         $response->getStatusCode()->willReturn(200);
-        $response->getBody()->willReturn('{"uid":10}');
+        $response->getBody()->willReturn(Utils::streamFor('{"uid":10}'));
 
         $subject = new Skill(
             $settings->reveal(),
