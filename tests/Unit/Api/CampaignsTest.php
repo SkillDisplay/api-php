@@ -26,6 +26,7 @@ namespace SkillDisplay\PHPToolKit\Tests\Unit\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use SkillDisplay\PHPToolKit\Api\Campaigns;
@@ -75,7 +76,7 @@ class CampaignsTest extends TestCase
         }))->willReturn($response->reveal());
 
         $response->getStatusCode()->willReturn(200);
-        $response->getBody()->willReturn('{"Version": "1.0","ErrorMessage": "","Campaigns": [{"uid": 1},{"uid": 2}]}');
+        $response->getBody()->willReturn(Utils::streamFor('{"Version": "1.0","ErrorMessage": "","Campaigns": [{"uid": 1},{"uid": 2}]}'));
 
         $subject = new Campaigns(
             $settings->reveal(),
