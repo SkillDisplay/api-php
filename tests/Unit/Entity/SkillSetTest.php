@@ -88,6 +88,21 @@ class SkillSetTest extends TestCase
     /**
      * @test
      */
+    public function instanceReturnsProgressPercentage()
+    {
+        $settings = $this->prophesize(Settings::class);
+        $subject = SkillSet::createFromJson('{"progressPercentage":{"tier3":44.44444444444444,"tier2":40.74074074074074,"tier1":0,"tier4":23}}', $settings->reveal());
+        $progress = \SkillDisplay\PHPToolKit\Entity\SkillSetProgress::createFromJson('{"tier3":44.44444444444444,"tier2":40.74074074074074,"tier1":0,"tier4":23}', $settings->reveal());
+        static::assertEquals($progress, $subject->getProgressPercentage());
+        static::assertSame(0.0, $subject->getProgressPercentage()->getTier1());
+        static::assertSame(40.74074074074074, $subject->getProgressPercentage()->getTier2());
+        static::assertSame(44.44444444444444, $subject->getProgressPercentage()->getTier3());
+        static::assertSame(23.0, $subject->getProgressPercentage()->getTier4());
+    }
+
+    /**
+     * @test
+     */
     public function instanceReturnsBrand()
     {
         $settings = $this->prophesize(Settings::class);

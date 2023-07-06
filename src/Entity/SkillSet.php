@@ -56,6 +56,11 @@ class SkillSet
         return $this->data['description'] ?? '';
     }
 
+    public function getProgressPercentage(): SkillSetProgress
+    {
+        return SkillSetProgress::createFromJson(json_encode($this->data['progressPercentage']), $this->settings);
+    }
+
     public function getBrand(): Brand
     {
         if ($this->brand instanceof Brand) {
