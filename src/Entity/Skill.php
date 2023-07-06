@@ -27,20 +27,11 @@ use SkillDisplay\PHPToolKit\Configuration\Settings;
 
 class Skill
 {
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
-    /**
-     * @var Settings
-     */
-    private $settings;
+    private Settings $settings;
 
-    /**
-     * @var array
-     */
-    private $brands = [];
+    private array $brands = [];
 
     private function __construct(array $data, Settings $settings)
     {
