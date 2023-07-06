@@ -6,30 +6,15 @@ namespace SkillDisplay\PHPToolKit\Configuration;
 
 class Settings
 {
-    /**
-     * @var string
-     */
-    private $user_secret = '';
+    private string $user_secret = '';
 
-    /**
-     * @var string
-     */
-    private $apiKey = '';
+    private string $apiKey = '';
 
-    /**
-     * @var int
-     */
-    private $verifierID = 0;
+    private int $verifierID = 0;
 
-    /**
-     * @var string
-     */
-    private $APIUrl = '';
+    private string $APIUrl = '';
 
-    /**
-     * @var string
-     */
-    private $mySkillDisplayUrl = '';
+    private string $mySkillDisplayUrl = '';
 
     public function getVerifierID(): int
     {

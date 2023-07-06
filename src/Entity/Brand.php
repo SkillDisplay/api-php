@@ -27,15 +27,9 @@ use SkillDisplay\PHPToolKit\Configuration\Settings;
 
 class Brand
 {
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
-    /**
-     * @var Settings
-     */
-    private $settings;
+    private Settings $settings;
 
     private function __construct(array $data, Settings $settings)
     {

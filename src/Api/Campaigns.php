@@ -31,15 +31,9 @@ use SkillDisplay\PHPToolKit\Entity\Campaign;
 
 class Campaigns
 {
-    /**
-     * @var Settings
-     */
-    protected $settings;
+    protected Settings $settings;
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected Client $client;
 
     public function __construct(
         Settings $settings,
