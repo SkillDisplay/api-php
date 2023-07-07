@@ -130,7 +130,7 @@ class SkillSet
         $skillSetsJson = json_decode($body, true);
         $skillSets = [];
         foreach ($skillSetsJson as $skillSet) {
-            $skillSets[] = Entity::createFromJson($skillSet, $this->settings);
+            $skillSets[] = Entity::createFromArray($skillSet, $this->settings);
         }
 
         return $skillSets;

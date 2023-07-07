@@ -113,4 +113,9 @@ class SkillSet
     {
         return new SkillSet(json_decode($json, true), $settings);
     }
+
+    public static function createFromArray(array $data, Settings $settings): SkillSet
+    {
+        return new SkillSet($data, $settings);
+    }
 }
