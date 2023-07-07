@@ -26,6 +26,8 @@ namespace SkillDisplay\PHPToolKit\Api;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
+use InvalidArgumentException;
+use RuntimeException;
 use SkillDisplay\PHPToolKit\Configuration\Settings;
 use SkillDisplay\PHPToolKit\Entity\SkillSet as Entity;
 
@@ -54,17 +56,19 @@ class SkillSet
             $url .= '?includeFullSkills';
         }
         try {
-            $result = $this->client->send(new Request(
-                'GET',
-                $url,
-                [
-                    'Content-Type' => 'application/json',
-                    'x-api-key' => $this->settings->getApiKey()
-                ]
-            ));
+            $result = $this->client->send(
+                new Request(
+                    'GET',
+                    $url,
+                    [
+                        'Content-Type' => 'application/json',
+                        'x-api-key' => $this->settings->getApiKey()
+                    ]
+                )
+            );
         } catch (ClientException $e) {
             if ($e->getCode() === 404) {
-                throw new \InvalidArgumentException('Given SkillSet with id "' . $id . '" not available.', 1601881616);
+                throw new InvalidArgumentException('Given SkillSet with id "' . $id . '" not available.', 1601881616);
             }
             throw $e;
         }
@@ -73,12 +77,62 @@ class SkillSet
             throw new \Exception('Did not get proper response for SkillSet.', 1600694312);
         }
 
-        $body = (string) $result->getBody();
+        $body = (string)$result->getBody();
 
         if (strpos($body, 'Oops, an error occurred') !== false) {
-            throw new \Exception('Did not get proper response for SkillSet. SkillSet with id "' . $id . '" does probably not exist.', 1600694312);
+            throw new \Exception(
+                'Did not get proper response for SkillSet. SkillSet with id "' . $id . '" does probably not exist.',
+                1600694312
+            );
         }
 
         return Entity::createFromJson($body, $this->settings);
+    }
+
+    /**
+     * @param bool $includeFullSkills
+     * @return Entity[]
+     */
+    public function getAll(bool $includeFullSkills = false): array
+    {
+        $url = $this->settings->getAPIUrl() . '/api/v1/skillsets';
+        if ($includeFullSkills) {
+            $url .= '?includeFullSkills';
+        }
+        try {
+            $result = $this->client->send(
+                new Request(
+                    'GET',
+                    $url,
+                    [
+                        'Content-Type' => 'application/json',
+                        'x-api-key' => $this->settings->getApiKey()
+                    ]
+                )
+            );
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404) {
+                throw new InvalidArgumentException('Failed to fetch Skill Set data.', 1688726816);
+            }
+            throw $e;
+        }
+
+        if ($result->getStatusCode() !== 200) {
+            throw new RuntimeException('Did not get proper response for SkillSets.', 1688726814);
+        }
+
+        $body = (string)$result->getBody();
+
+        if (strpos($body, 'Oops, an error occurred') !== false) {
+            throw new RuntimeException('Did not get proper response for SkillSets.', 1688726813);
+        }
+
+        $skillSetsJson = json_decode($body, true);
+        $skillSets = [];
+        foreach ($skillSetsJson as $skillSet) {
+            $skillSets[] = Entity::createFromJson($skillSet, $this->settings);
+        }
+
+        return $skillSets;
     }
 }
